@@ -1,33 +1,46 @@
 const express = require('express');
 const mysql = require('mysql2');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware
+// Middleware para JSON
 app.use(express.json());
 
 // Configuração do banco de dados
 const db = mysql.createConnection({
-  host: 'localhost', // Altere para suas credenciais
-  user: 'root',
-  password: '123',
-  database: 'registros'
+  host: 'localhost', // Substitua com o host correto do banco
+  user: 'root',      // Substitua pelo seu usuário
+  password: '123',      // Substitua pela senha do banco
+  database: 'nome_do_banco' // Substitua pelo nome do banco
 });
 
+// Conectar ao banco
 db.connect(err => {
   if (err) {
-    console.error('Erro ao conectar ao banco de dados:', err);
+    console.error('Error connecting to database:', err);
     return;
   }
-  console.log('Conectado ao banco de dados');
+  console.log('Connected to database');
 });
 
-// Rota simples
+// Rota padrão (home)
 app.get('/', (req, res) => {
-  res.send('API está funcionando!');
+  res.send('API is running...');
 });
 
-// Iniciar servidor
+// Rota de registros
+app.get('/registros', (req, res) => {
+  db.query('SELECT * FROM registros', (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ error: 'Error fetching data' });
+    }
+    res.json(results);
+  });
+});
+
+// Iniciar o servidor
 app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
