@@ -1,5 +1,10 @@
+const express = require('express');
 const mysql = require('mysql2');
 
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Configuração do banco de dados
 const connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -10,26 +15,24 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
     if (err) {
-        console.error('Error connecting to database:', err);
+        console.error('Database connection failed:', err.stack);
         return;
     }
-    console.log('Connected to the MySQL database');
+    console.log('Connected to database.');
 });
 
-// Exemplo de rota
-const express = require('express');
-const app = express();
-
+// Rota principal
 app.get('/', (req, res) => {
     connection.query('SELECT * FROM registros', (err, results) => {
         if (err) {
-            res.status(500).send('Error fetching data');
-            return;
+            console.error('Query error:', err);
+            return res.status(500).json({ error: 'Database query failed' });
         }
         res.json(results);
     });
 });
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+// Inicializa o servidor
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
