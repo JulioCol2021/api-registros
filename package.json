@@ -1,13 +1,3 @@
-{
-  "name": "api-registros",
-  "version": "1.0.0",
-  "description": "Projeto API Registros",
-  "main": "app.js",
-  "scripts": {
+"scripts": {
     "start": "node app.js"
-  },
-  "dependencies": {
-    "express": "^4.17.1",
-    "mysql2": "^2.3.3"
-  }
 }
