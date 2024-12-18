@@ -9,10 +9,10 @@ app.use(express.json());
 
 // Configuração do banco de dados
 const db = mysql.createConnection({
-  host: 'localhost', // Substitua com o host correto do banco
-  user: 'root',      // Substitua pelo seu usuário
-  password: '123',      // Substitua pela senha do banco
-  database: 'nome_do_banco' // Substitua pelo nome do banco
+  host: 'seu-host-do-banco', // Exemplo: 'localhost' ou endereço do banco em produção
+  user: 'seu-usuario',       // Usuário do banco
+  password: '123',     // Senha do banco
+  database: 'nome-do-banco'  // Nome do banco de dados
 });
 
 // Conectar ao banco
@@ -29,14 +29,15 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
-// Rota de registros
+// Rota para retornar registros
 app.get('/registros', (req, res) => {
-  db.query('SELECT * FROM registros', (err, results) => {
+  const query = 'SELECT * FROM registros'; // Ajuste para o nome correto da tabela
+  db.query(query, (err, results) => {
     if (err) {
       console.error('Error fetching data:', err);
       return res.status(500).json({ error: 'Error fetching data' });
     }
-    res.json(results);
+    res.json(results); // Retorna os resultados como JSON
   });
 });
 
