@@ -1,6 +1,13 @@
 {
+  "name": "api-registros",
+  "version": "1.0.0",
+  "description": "API para registros no MySQL",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
-    "express": "^4.21.2",
-    "mysql2": "^3.11.5"
+    "express": "^4.18.2",
+    "mysql2": "^3.2.4"
   }
 }
